@@ -43,6 +43,10 @@ class CondaPackageCheck(object):
             if p.startswith('info/'):
                 raise PackageError("Did not expect '%s' in info/files" % p)
 
+        hardlinks = [m.path for m in self.t.getmembers() if m.islnk()]
+        if len(hardlinks):
+            raise PackageError('hardlinks')
+
         seta = set(lista)
         if len(lista) != len(seta):
             raise PackageError('info/files: duplicates')
