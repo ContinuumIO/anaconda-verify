@@ -25,7 +25,7 @@ FIELDS = {
               'always_include_files'},
     'requirements': {'build', 'run'},
     'app': {'entry', 'icon', 'summary', 'type', 'cli_opts'},
-    'test': {'requires', 'commands', 'files', 'imports'},
+    'test': {'requires', 'commands', 'files', 'imports', 'source_files'},
     'about': {'license', 'license_url', 'license_family', 'license_file',
               'summary', 'description', 'home', 'doc_url', 'dev_url'},
 }
