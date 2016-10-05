@@ -22,7 +22,7 @@ FIELDS = {
               'preserve_egg_dir', 'win_has_prefix', 'no_link',
               'ignore_prefix_files', 'msvc_compiler', 'skip_compile_pyc',
               'detect_binary_files_with_prefix', 'script',
-              'always_include_files'},
+              'always_include_files', 'skip_compile_pyc'},
     'requirements': {'build', 'run'},
     'app': {'entry', 'icon', 'summary', 'type', 'cli_opts'},
     'test': {'requires', 'commands', 'files', 'imports'},
