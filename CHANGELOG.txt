@@ -1,3 +1,7 @@
+2016-10-XX   1.2.2:
+-------------------
+  * allow skip_compile_pyc key
+
 2016-09-29   1.2.1:
 -------------------
   * fix description in setup.py
