@@ -50,7 +50,7 @@ def validate_files(recipe_dir, meta):
             raise RecipeError("no such file '%s'" % path)
 
 
-def verify(rendered_meta, recipe_dir, **kwargs):
+def verify(rendered_meta=None, recipe_dir=None, **kwargs):
     meta_path = join(recipe_dir, 'meta.yaml')
     for cfg in iter_cfgs():
         validate_files(recipe_dir, rendered_meta)

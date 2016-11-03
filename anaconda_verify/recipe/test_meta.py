@@ -130,7 +130,7 @@ def validate_meta(meta, pedantic=True):
     check_about(meta, pedantic)
 
 
-def verify(rendered_meta, recipe_dir, **kwargs):
+def verify(rendered_meta=None, recipe_dir=None, **kwargs):
     meta_path = join(recipe_dir, 'meta.yaml')
     for cfg in iter_cfgs():
         pedantic = kwargs.get("pedantic") if "pedantic" in kwargs.keys() else True
