@@ -1,28 +1,8 @@
 import re
 from os.path import join
 from anaconda_verify.const import LICENSE_FAMILIES, FIELDS
-from anaconda_verify.utils import get_bad_seq
-
-
-class RecipeError(Exception):
-    pass
-
-
-def get_field(meta, field, default=None):
-    section, key = field.split('/')
-    submeta = meta.get(section)
-    if submeta is None:
-        submeta = {}
-    res = submeta.get(key)
-    if res is None:
-        res = default
-    return res
-
-
-def iter_cfgs():
-    for py in 27, 34, 35:
-        for plat in 'linux-64', 'linux-32', 'osx-64', 'win-32', 'win-64':
-            yield dict(plat=plat, PY=py, NPY=111)
+from anaconda_verify.utils import get_bad_seq, get_field, iter_cfgs
+from anaconda_verify.exceptions import RecipeError
 
 
 name_pat = re.compile(r'[a-z0-9_][a-z0-9_\-\.]*$')
@@ -150,8 +130,9 @@ def validate_meta(meta, pedantic=True):
     check_about(meta, pedantic)
 
 
-def verify(rendered_meta, recipe_dir, pedantic=True):
+def verify(rendered_meta, recipe_dir, **kwargs):
     meta_path = join(recipe_dir, 'meta.yaml')
     for cfg in iter_cfgs():
+        pedantic = kwargs.get("pedantic") if "pedantic" in kwargs.keys() else True
         validate_meta(rendered_meta, pedantic)
 

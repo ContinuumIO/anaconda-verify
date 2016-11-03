@@ -29,4 +29,4 @@ class Verify(object):
         files = self.list_script(pkg_path, run_scripts=run_scripts, ignore_scripts=ignore_scripts)
         for script in files:
             mod = getattr(__import__("verify.package", fromlist=[script]), script)
-            mod.verify(**kwargs)
+            mod.verify(pedantic=pedantic, **kwargs)

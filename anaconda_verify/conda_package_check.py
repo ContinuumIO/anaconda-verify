@@ -4,10 +4,7 @@ import shlex
 import re
 from os.path import basename
 from anaconda_verify.utils import get_bad_seq, all_ascii, get_object_type
-
-
-class PackageError(Exception):
-    pass
+from anaconda_verify.exceptions import PackageError
 
 
 def dist_fn(fn):
@@ -126,7 +123,7 @@ class CondaPackageCheck(object):
         else:
             raise PackageError("info/has_prefix: invalid mode")
 
-    def has_prefix(self):
+    def has_prefix(self, pedantic=True):
         for m in self.t.getmembers():
             if m.path != 'info/has_prefix':
                 continue
@@ -136,7 +133,7 @@ class CondaPackageCheck(object):
             if not all_ascii(data, self.win_pkg):
                 raise PackageError("non-ASCII in: info/has_prefix")
             for line in data.decode('utf-8').splitlines():
-                self._check_has_prefix_line(line)
+                self._check_has_prefix_line(line, pedantic=pedantic)
 
     def warn_post_link(self):
         for p in self.paths:

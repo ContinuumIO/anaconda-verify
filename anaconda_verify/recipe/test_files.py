@@ -1,7 +1,7 @@
 import os
 from os.path import join, isfile, basename, getsize
-from verify.common import iter_cfgs, get_field
-from verify.exceptions import RecipeError
+from anaconda_verify.utils import iter_cfgs, get_field
+from anaconda_verify.exceptions import RecipeError
 
 
 def dir_size(dir_path):
@@ -50,7 +50,7 @@ def validate_files(recipe_dir, meta):
             raise RecipeError("no such file '%s'" % path)
 
 
-def verify(rendered_meta, recipe_dir):
+def verify(rendered_meta, recipe_dir, **kwargs):
     meta_path = join(recipe_dir, 'meta.yaml')
     for cfg in iter_cfgs():
         validate_files(recipe_dir, rendered_meta)

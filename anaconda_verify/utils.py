@@ -4,6 +4,22 @@ import collections
 from anaconda_verify.const import MAGIC_HEADERS, DLL_TYPES
 
 
+def get_field(meta, field, default=None):
+    section, key = field.split('/')
+    submeta = meta.get(section)
+    if submeta is None:
+        submeta = {}
+    res = submeta.get(key)
+    if res is None:
+        res = default
+    return res
+
+
+def iter_cfgs():
+    for py in 27, 34, 35:
+        for plat in 'linux-64', 'linux-32', 'osx-64', 'win-32', 'win-64':
+            yield dict(plat=plat, PY=py, NPY=111)
+
 
 def get_object_type(data):
     head = data[:4]
