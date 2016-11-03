@@ -14,8 +14,10 @@ class Verify(object):
 
         if ignore_scripts is not None:
             return [script for script in files if script not in ignore_scripts]
-        else:
+        elif run_scripts is not None:
             return [script for script in files if script in run_scripts]
+        else:
+            return files
 
     def verify_recipe(self, pedantic=True, run_scripts=None, ignore_scripts=None, **kwargs):
         rec_path = join(dirname(__file__), "recipe")
