@@ -146,10 +146,12 @@ def validate_meta(meta, pedantic=True):
     check_requirements(meta)
     check_about(meta)
     check_source(meta)
+    check_license_family(meta, pedantic)
+    check_about(meta, pedantic)
 
 
-def verify(rendered_meta, recipe_dir):
+def verify(rendered_meta, recipe_dir, pedantic=True):
     meta_path = join(recipe_dir, 'meta.yaml')
     for cfg in iter_cfgs():
-        validate_meta(rendered_meta)
+        validate_meta(rendered_meta, pedantic)
 
