@@ -19,16 +19,16 @@ class Verify(object):
         else:
             return files
 
-    def verify_recipe(self, pedantic=True, run_scripts=None, ignore_scripts=None, **kwargs):
+    def verify_recipe(self, run_scripts=None, ignore_scripts=None, **kwargs):
         rec_path = join(dirname(__file__), "recipe")
         files = self.list_script(rec_path, run_scripts=run_scripts, ignore_scripts=ignore_scripts)
         for script in files:
-            mod = getattr(__import__("verify.recipe", fromlist=[script]), script)
-            mod.verify(pedantic=pedantic, **kwargs)
+            mod = getattr(__import__("anaconda_verify.recipe", fromlist=[script]), script)
+            mod.verify(**kwargs)
 
-    def verify_package(self, pedantic=True, run_scripts=None, ignore_scripts=None, **kwargs):
+    def verify_package(self, run_scripts=None, ignore_scripts=None, **kwargs):
         pkg_path = join(dirname(__file__), "package")
         files = self.list_script(pkg_path, run_scripts=run_scripts, ignore_scripts=ignore_scripts)
         for script in files:
-            mod = getattr(__import__("verify.package", fromlist=[script]), script)
-            mod.verify(pedantic=pedantic, **kwargs)
+            mod = getattr(__import__("anaconda_verify.package", fromlist=[script]), script)
+            mod.verify(**kwargs)
