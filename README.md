@@ -1,7 +1,7 @@
 anaconda-verify
 ===============
 
-<span style="color:red">
+<span style="color: red;">
   Note: This project is now deprecated,
   use <a href="https://github.com/conda/conda-verify">conda-verify</a>
   instead.
