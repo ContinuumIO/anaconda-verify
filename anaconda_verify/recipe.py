@@ -133,11 +133,22 @@ def check_build_number(bn):
         raise RecipeError("build/number '%s' (not a positive interger)" % bn)
 
 
+ver_spec_pat = re.compile(r'[\w\.,=!<>\*]+$')
 def check_requirements(meta):
-    for req in get_field(meta, 'requirements/run', []):
-        name = req.split()[0]
+    for req in (get_field(meta, 'requirements/build', []) +
+                get_field(meta, 'requirements/run', [])):
+        parts = req.split()
+        name = parts[0]
         if not name_pat.match(name):
-            raise RecipeError("invalid run requirement name '%s'" % name)
+            raise RecipeError("invalid name spec '%s'" % req)
+        if len(parts) >= 2:
+            ver_spec = parts[1]
+            if not ver_spec_pat.match(ver_spec):
+                raise RecipeError("invalid version spec '%s'" % req)
+            if len(parts) == 3 and not version_pat.match(ver_spec):
+                raise RecipeError("invalid (pure) version spec '%s'" % req)
+        if len(parts) > 3:
+            raise RecipeError("invalid spec (too many parts) '%s'" % req)
 
 
 def check_license_family(meta):
