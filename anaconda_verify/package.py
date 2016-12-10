@@ -6,6 +6,7 @@ import shlex
 import tarfile
 from os.path import basename
 
+from anaconda_verify.const import LICENSE_FAMILIES
 from anaconda_verify.utils import get_object_type, all_ascii, get_bad_seq
 from anaconda_verify.common import (check_name, check_version, check_spec,
                                     check_build_number)
@@ -108,6 +109,11 @@ class CondaPackageCheck(object):
             res = check_spec(spec)
             if res:
                 raise PackageError("info/index.json: %s" % res)
+
+        if PEDANTIC:
+            lf = self.info.get('license_family', self.info.get('license'))
+            if lf not in LICENSE_FAMILIES:
+                raise PackageError("wrong license family: %s" % lf)
 
     def no_bat_and_exe(self):
         bats = {p[:-4] for p in self.paths if p.endswith('.bat')}
