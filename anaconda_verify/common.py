@@ -51,5 +51,11 @@ def check_spec(spec):
     return None
 
 
+def check_build_number(bn):
+    if not (isinstance(bn, int) and bn >= 0):
+        return "build number '%s' (not a positive interger)" % bn
+
+
 if __name__ == '__main__':
-    print(check_spec('numpy 1.2, 3.4 a'))
+    print(check_spec('numpy 1.2'))
+    print(check_build_number(3))
