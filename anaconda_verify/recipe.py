@@ -7,8 +7,8 @@ from os.path import basename, isfile, getsize, join
 import yaml
 
 from anaconda_verify.const import LICENSE_FAMILIES, FIELDS
-from anaconda_verify.utils import all_ascii, get_bad_seq, memoized
-
+from anaconda_verify.utils import all_ascii, memoized
+from anaconda_verify.common import check_name, check_version, check_spec
 
 PEDANTIC = True
 
@@ -98,57 +98,17 @@ def get_field(meta, field, default=None):
     return res
 
 
-name_pat = re.compile(r'[a-z0-9_][a-z0-9_\-\.]*$')
-def check_name(name):
-    if name:
-        name = str(name)
-    else:
-        raise RecipeError("package name missing")
-    if not name_pat.match(name) or name.endswith(('.', '-', '_')):
-        raise RecipeError("invalid package name '%s'" % name)
-    seq = get_bad_seq(name)
-    if seq:
-        raise RecipeError("'%s' is not allowed in "
-                          "package name: '%s'" % (seq, name))
-
-
-version_pat = re.compile(r'[\w\.]+$')
-def check_version(ver):
-    if ver:
-        ver = str(ver)
-    else:
-        raise RecipeError("package version missing")
-    if not version_pat.match(ver):
-        raise RecipeError("invalid version '%s'" % ver)
-    if ver.startswith(('_', '.')) or ver.endswith(('_', '.')):
-        raise RecipeError("version cannot start or end with '_' or '.': %s" %
-                          ver)
-    seq = get_bad_seq(ver)
-    if seq:
-        raise RecipeError("'%s' not allowed in version '%s'" % (seq, ver))
-
-
 def check_build_number(bn):
     if not (isinstance(bn, int) and bn >= 0):
         raise RecipeError("build/number '%s' (not a positive interger)" % bn)
 
 
-ver_spec_pat = re.compile(r'[\w\.,=!<>\*]+$')
 def check_requirements(meta):
-    for req in (get_field(meta, 'requirements/build', []) +
-                get_field(meta, 'requirements/run', [])):
-        parts = req.split()
-        name = parts[0]
-        if not name_pat.match(name):
-            raise RecipeError("invalid name spec '%s'" % req)
-        if len(parts) >= 2:
-            ver_spec = parts[1]
-            if not ver_spec_pat.match(ver_spec):
-                raise RecipeError("invalid version spec '%s'" % req)
-            if len(parts) == 3 and not version_pat.match(ver_spec):
-                raise RecipeError("invalid (pure) version spec '%s'" % req)
-        if len(parts) > 3:
-            raise RecipeError("invalid spec (too many parts) '%s'" % req)
+    for spec in (get_field(meta, 'requirements/build', []) +
+                 get_field(meta, 'requirements/run', [])):
+        res = check_spec(spec)
+        if res:
+            raise RecipeError(res)
 
 
 def check_license_family(meta):
@@ -224,8 +184,11 @@ def validate_meta(meta):
                 raise RecipeError("in section %r: unknown key %r" %
                                   (section, key))
 
-    check_name(get_field(meta, 'package/name'))
-    check_version(get_field(meta, 'package/version'))
+    for res in [check_name(get_field(meta, 'package/name')),
+                check_version(get_field(meta, 'package/version'))]:
+        if res:
+            raise RecipeError(res)
+
     check_build_number(get_field(meta, 'build/number', 0))
     check_requirements(meta)
     check_about(meta)

@@ -37,15 +37,19 @@ def check_spec(spec):
         return "spec missing"
     spec = str(spec)
     parts = spec.split()
-    name = parts[0]
-    if not name_pat.match(name):
+    nparts = len(parts)
+    if nparts == 0:
+        return "empty spec '%s'" % spec
+    if not name_pat.match(parts[0]):
         return "invalid name spec '%s'" % spec
-    if len(parts) >= 2:
-        ver_spec = parts[1]
-        if not ver_spec_pat.match(ver_spec):
-            return "invalid version spec '%s'" % spec
-        if len(parts) == 3 and not version_pat.match(ver_spec):
-            return "invalid (pure) version spec '%s'" % spec
+    if nparts >= 2 and not ver_spec_pat.match(parts[1]):
+        return "invalid version spec '%s'" % spec
+    if nparts == 3 and not version_pat.match(parts[1]):
+        return "invalid (pure) version spec '%s'" % spec
     if len(parts) > 3:
         return "invalid spec (too many parts) '%s'" % spec
     return None
+
+
+if __name__ == '__main__':
+    print(check_spec('numpy 1.2, 3.4 a'))
