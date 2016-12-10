@@ -1,9 +1,9 @@
 anaconda-verify
 ===============
 
-Note: <p style="color:red">This project is now deprecated,
-use <a href="https://github.com/conda/conda-verify">conda-verify</a>
-instead.</p>
+This project is now somewhat deprecated, use
+<a href="https://github.com/conda/conda-verify">conda-verify</a>
+instead.
 
 anaconda-verify is a tool for (passively) verifying conda recipes and
 conda packages.
