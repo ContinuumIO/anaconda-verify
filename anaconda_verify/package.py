@@ -7,6 +7,8 @@ import tarfile
 from os.path import basename
 
 from anaconda_verify.utils import get_object_type, all_ascii, get_bad_seq
+from anaconda_verify.common import (check_name, check_version, check_spec,
+                                    check_build_number)
 
 
 PEDANTIC = True
@@ -94,10 +96,18 @@ class CondaPackageCheck(object):
                 raise PackageError("info/index.json for %s: %r != %r" %
                                    (varname, self.info[varname],
                                     getattr(self, varname)))
-        bn = self.info['build_number']
-        if not isinstance(bn, int):
-            raise PackageError("info/index.json: invalid build_number: %s" %
-                               bn)
+        for res in [
+                check_name(self.info['name']),
+                check_version(self.info['version']),
+                check_build_number(self.info['build_number']),
+                ]:
+            if res:
+                raise PackageError("info/index.json: %s" % res)
+
+        for spec in self.info['depends']:
+            res = check_spec(spec)
+            if res:
+                raise PackageError("info/index.json: %s" % res)
 
     def no_bat_and_exe(self):
         bats = {p[:-4] for p in self.paths if p.endswith('.bat')}

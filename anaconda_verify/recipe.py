@@ -180,9 +180,11 @@ def validate_meta(meta):
                 raise RecipeError("in section %r: unknown key %r" %
                                   (section, key))
 
-    for res in [check_name(get_field(meta, 'package/name')),
-                check_version(get_field(meta, 'package/version')),
-                check_build_number(get_field(meta, 'build/number', 0))]:
+    for res in [
+            check_name(get_field(meta, 'package/name')),
+            check_version(get_field(meta, 'package/version')),
+            check_build_number(get_field(meta, 'build/number', 0)),
+            ]:
         if res:
             raise RecipeError(res)
 
