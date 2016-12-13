@@ -277,11 +277,7 @@ def validate_recipe(recipe_dir, pedantic=True):
     if PEDANTIC and not all_ascii(data):
         raise RecipeError("non-ASCII in: %s" % meta_path)
     if b'{{' in data:
-        if PEDANTIC:
-            raise RecipeError("found {{ in %s (Jinja templating not allowed)" %
-                              meta_path)
-        else:
-            data = render_jinja2(recipe_dir)
+        data = render_jinja2(recipe_dir)
     else:
         data = data.decode('utf-8')
 
