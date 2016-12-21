@@ -105,10 +105,9 @@ class CondaPackageCheck(object):
             if res:
                 raise PackageError("info/index.json: %s" % res)
 
-        for spec in self.info['depends']:
-            res = check_spec(spec)
-            if res:
-                raise PackageError("info/index.json: %s" % res)
+        res = check_spec(self.info['depends'])
+        if res:
+            raise PackageError("info/index.json: %s" % res)
 
         if PEDANTIC:
             lf = self.info.get('license_family', self.info.get('license'))

@@ -8,7 +8,7 @@ import yaml
 
 from anaconda_verify.const import LICENSE_FAMILIES, FIELDS
 from anaconda_verify.utils import all_ascii, memoized
-from anaconda_verify.common import (check_name, check_version, check_spec,
+from anaconda_verify.common import (check_name, check_version, check_specs,
                                     check_build_number)
 
 PEDANTIC = True
@@ -100,9 +100,9 @@ def get_field(meta, field, default=None):
 
 
 def check_requirements(meta):
-    for spec in (get_field(meta, 'requirements/build', []) +
-                 get_field(meta, 'requirements/run', [])):
-        res = check_spec(spec)
+    for field in 'requirements/build', 'requirements/run':
+        specs = get_field(meta, field, [])
+        res = check_specs(specs)
         if res:
             raise RecipeError(res)
 
