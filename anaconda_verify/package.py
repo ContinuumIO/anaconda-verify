@@ -8,7 +8,7 @@ from os.path import basename
 
 from anaconda_verify.const import LICENSE_FAMILIES
 from anaconda_verify.utils import get_object_type, all_ascii, get_bad_seq
-from anaconda_verify.common import (check_name, check_version, check_spec,
+from anaconda_verify.common import (check_name, check_version, check_specs,
                                     check_build_number)
 
 
@@ -105,7 +105,7 @@ class CondaPackageCheck(object):
             if res:
                 raise PackageError("info/index.json: %s" % res)
 
-        res = check_spec(self.info['depends'])
+        res = check_specs(self.info['depends'])
         if res:
             raise PackageError("info/index.json: %s" % res)
 
