@@ -1,4 +1,5 @@
 import re
+from collections import defaultdict
 
 from anaconda_verify.utils import get_bad_seq
 
@@ -48,6 +49,20 @@ def check_spec(spec):
         return "invalid (pure) version spec '%s'" % spec
     if len(parts) > 3:
         return "invalid spec (too many parts) '%s'" % spec
+    return None
+
+
+def check_specs(specs):
+    name_specs = defaultdict(list)
+    for spec in specs:
+        res = check_spec(spec)
+        if res:
+            return res
+        name_specs[spec.split()[0]].append(spec)
+    for name in name_specs:
+        specs = name_specs[name]
+        if len(specs) > 1:
+            return "duplicate specs: %s" % specs
     return None
 
 
