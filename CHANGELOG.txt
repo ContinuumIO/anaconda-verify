@@ -1,6 +1,7 @@
-2016-12-XX   1.3.1:
+2016-12-22   1.3.1:
 -------------------
   * add checks for duplicate specs
+  * allow build/allow_binary_relocation key
 
 
 2016-12-10   1.3.0:
