@@ -9,7 +9,8 @@ from os.path import basename
 from anaconda_verify.const import LICENSE_FAMILIES
 from anaconda_verify.utils import get_object_type, all_ascii, get_bad_seq
 from anaconda_verify.common import (check_name, check_version, check_specs,
-                                    check_build_number)
+                                    check_build_number,
+                                    get_python_version_specs)
 
 
 PEDANTIC = True
@@ -275,13 +276,24 @@ class CondaPackageCheck(object):
                                    "index.json arch is %s" %
                                    (m.name, tp, arch))
 
+    def get_sp_location(self):
+        if self.win_pkg:
+            return 'Lib/site-packages'
+        py_ver = get_python_version_specs(self.info['depends'])
+        if py_ver is None:
+            return '<not a Python package>'
+        return 'lib/python%s/site-packages' % py_ver
+
     def list_packages(self):
+        sp_location = self.get_sp_location()
         pat = re.compile(r'site-packages/([^/]+)')
         res = set()
         for p in self.paths:
             m = pat.search(p)
             if m is None:
                 continue
+            if not p.startswith(sp_location):
+                print("WARNING: found %s" % p)
             fn = m.group(1)
             if '-' in fn or fn.endswith('.pyc'):
                 continue

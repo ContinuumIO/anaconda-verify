@@ -71,6 +71,30 @@ def check_build_number(bn):
         return "build number '%s' (not a positive interger)" % bn
 
 
+def get_python_version_specs(specs):
+    """
+    Return the Python version (as a string "x.y") from a given list of specs.
+    If Python is not a dependency, or if the version does not start with x.y,
+    None is returned
+    """
+    pat = re.compile(r'(\d\.\d)')
+    for spec in specs:
+        spec = str(spec)
+        parts = spec.split()
+        nparts = len(parts)
+        if nparts < 2:
+            continue
+        name, version = parts[:2]
+        if name != 'python':
+            continue
+        m = pat.match(version)
+        if m:
+            return m.group(1)
+    return None
+
+
 if __name__ == '__main__':
+    import sys
     print(check_spec('numpy 1.2'))
     print(check_build_number(3))
+    print(get_python_version_specs(sys.argv[1:]))
