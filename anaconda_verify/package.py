@@ -106,7 +106,10 @@ class CondaPackageCheck(object):
             if res:
                 raise PackageError("info/index.json: %s" % res)
 
-        res = check_specs(self.info['depends'])
+        depends = self.info.get('depends')
+        if depends is None:
+            raise PackageError("info/index.json: key 'depends' missing")
+        res = check_specs(depends)
         if res:
             raise PackageError("info/index.json: %s" % res)
 
@@ -139,7 +142,7 @@ class CondaPackageCheck(object):
             if self.name == 'python':
                 raise PackageError("binary placeholder not allowed in Python")
             if PEDANTIC:
-                print("WARNING: info/has_prefix: binary replace mode")
+                print("WARNING: info/has_prefix: binary replace mode: %s" % f)
                 return
             if len(placeholder) != 255:
                 msg = ("info/has_prefix: binary placeholder not "
