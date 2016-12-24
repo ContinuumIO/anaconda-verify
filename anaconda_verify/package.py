@@ -280,12 +280,14 @@ class CondaPackageCheck(object):
                                    (m.name, tp, arch))
 
     def get_sp_location(self):
-        if self.win_pkg:
-            return 'Lib/site-packages'
         py_ver = get_python_version_specs(self.info['depends'])
         if py_ver is None:
             return '<not a Python package>'
-        return 'lib/python%s/site-packages' % py_ver
+
+        if self.win_pkg:
+            return 'Lib/site-packages'
+        else:
+            return 'lib/python%s/site-packages' % py_ver
 
     def list_packages(self):
         sp_location = self.get_sp_location()
