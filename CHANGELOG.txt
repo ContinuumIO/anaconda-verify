@@ -1,6 +1,7 @@
-20XX-XX-XX   1.3.2:
+2017-01-XX   1.3.2:
 -------------------
   * add check for site-package location for Python packages
+  * add check got non-ASCII in info/files, and tar members
 
 
 2016-12-22   1.3.1:
