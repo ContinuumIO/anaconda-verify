@@ -153,6 +153,8 @@ class CondaPackageCheck(object):
         if mode == 'binary':
             if self.name == 'python':
                 raise PackageError("binary placeholder not allowed in Python")
+            if self.win_pkg:
+                raise PackageError("binary placeholder not allowed on Windows")
             if PEDANTIC:
                 print("WARNING: info/has_prefix: binary replace mode: %s" % f)
                 return
