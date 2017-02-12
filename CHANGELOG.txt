@@ -1,7 +1,7 @@
-2017-XX-XX   1.3.3:
+2017-02-12   1.3.3:
 -------------------
-  * disallow info/package_metadata.json
   * error on binary placeholders Windows
+  * disallow info/package_metadata.json (in pedantic mode)
 
 
 2017-01-24   1.3.2:
