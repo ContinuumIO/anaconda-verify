@@ -9,7 +9,7 @@ from os.path import basename
 from anaconda_verify.const import LICENSE_FAMILIES
 from anaconda_verify.utils import get_object_type, all_ascii, get_bad_seq
 from anaconda_verify.common import (check_name, check_version, check_specs,
-                                    check_build_number,
+                                    check_build_string, check_build_number,
                                     get_python_version_specs)
 
 
@@ -110,11 +110,14 @@ class CondaPackageCheck(object):
                 raise PackageError("info/index.json for %s: %r != %r" %
                                    (varname, self.info[varname],
                                     getattr(self, varname)))
-        for res in [
-                check_name(self.info['name']),
-                check_version(self.info['version']),
-                check_build_number(self.info['build_number']),
-                ]:
+        lst = [
+            check_name(self.info['name']),
+            check_version(self.info['version']),
+            check_build_number(self.info['build_number']),
+        ]
+        if PEDANTIC:
+            lst.append(check_build_string(self.info['build']))
+        for res in lst:
             if res:
                 raise PackageError("info/index.json: %s" % res)
 
