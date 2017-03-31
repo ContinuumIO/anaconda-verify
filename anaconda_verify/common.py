@@ -32,7 +32,7 @@ def check_version(ver):
     return None
 
 
-hash_pat = re.compile(r'h[0-9a-f]{5,}', re.I)
+hash_pat = re.compile(r'[gh][0-9a-f]{5,}', re.I)
 def check_build_string(build):
     build = str(build)
     if not version_pat.match(build):
@@ -107,4 +107,6 @@ if __name__ == '__main__':
     import sys
     print(check_spec('numpy 1.2'))
     print(check_build_number(3))
-    print(get_python_version_specs(sys.argv[1:]))
+    #print(get_python_version_specs(sys.argv[1:]))
+    print(sys.argv[1])
+    print(check_build_string(sys.argv[1]))
