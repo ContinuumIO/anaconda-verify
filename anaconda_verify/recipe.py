@@ -189,6 +189,9 @@ def validate_meta(meta):
         if res:
             raise RecipeError(res)
 
+    if PEDANTIC and str(get_field(meta, 'build/noarch')).lower() == 'python':
+        raise RecipeError("noarch python recipe not allowed in pedantic mode")
+
     check_requirements(meta)
     check_about(meta)
     check_source(meta)
