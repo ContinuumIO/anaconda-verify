@@ -1,4 +1,4 @@
-# (c) 2016 Continuum Analytics, Inc. / http://continuum.io
+# (c) 2016-2017 Continuum Analytics, Inc. / http://continuum.io
 # All Rights Reserved
 import re
 from os.path import join
