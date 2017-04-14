@@ -50,7 +50,7 @@ class CondaPackageCheck(object):
     def check_members(self):
         for m in self.t.getmembers():
             path = m.path
-            if not all_ascii(path):
+            if not all_ascii(path.encode('utf-8')):
                 raise PackageError("non-ASCII path: %r" % path)
 
     def info_files(self):
