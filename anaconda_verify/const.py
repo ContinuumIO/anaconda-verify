@@ -28,7 +28,8 @@ FIELDS = {
     'app': {'entry', 'icon', 'summary', 'type', 'cli_opts'},
     'test': {'requires', 'commands', 'files', 'imports'},
     'about': {'license', 'license_url', 'license_family', 'license_file',
-              'summary', 'description', 'home', 'doc_url', 'dev_url'},
+              'summary', 'description', 'home', 'doc_url', 'doc_source_url',
+              'dev_url'},
 }
 
 MAGIC_HEADERS = {
