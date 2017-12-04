@@ -32,13 +32,10 @@ def check_version(ver):
     return None
 
 
-hash_pat = re.compile(r'[gh][0-9a-f]{5,}', re.I)
 def check_build_string(build):
     build = str(build)
     if not version_pat.match(build):
         return "invalid build string '%s'" % build
-    if hash_pat.search(build):
-        return "hashes not allowed in build string '%s'" % build
     return None
 
 
