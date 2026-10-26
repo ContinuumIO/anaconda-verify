@@ -1,9 +1,11 @@
 anaconda-verify
 ===============
 
-This project is now somewhat deprecated, use
-<a href="https://github.com/conda/conda-verify">conda-verify</a>
-instead.
+> [!WARNING]
+> This project is archived and unmaintained. Use
+> [anaconda-linter](https://anaconda.org/channels/main/packages/anaconda-linter/overview)
+> for Anaconda recipes and
+> [conda-smithy](https://github.com/conda-forge/conda-smithy) for conda-forge.
 
 anaconda-verify is a tool for (passively) verifying conda recipes and
 conda packages.
